@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
-// import Sound from 'react-native-sound';
+import Sound from 'react-native-sound';
 
 export default class App extends React.Component {
   onPressImage = e => {
