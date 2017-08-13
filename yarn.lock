@@ -4112,7 +4112,7 @@ react-native-safe-module@^1.1.0:
   dependencies:
     dedent "^0.6.0"
 
-react-native-scripts@1.1.0:
+react-native-scripts@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-scripts/-/react-native-scripts-1.1.0.tgz#6951651186333714c27f7c113b0e1f94ada344dd"
   dependencies:
