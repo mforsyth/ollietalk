@@ -9,12 +9,14 @@ import {
 import { Asset, Audio } from 'expo';
 
 export default class App extends React.Component {
-  playHello = async function() {
+  constructor(props) {
+    super(props);
+    this.loadLayout('./assets/layouts/hello.json');
+  }
+
+  playSound = async sound => {
     try {
-      const {
-        soundObject,
-        status,
-      } = await Audio.Sound.create(require('./assets/sounds/hello.mp3'), {
+      const { soundObject, status } = await Audio.Sound.create(require(sound), {
         shouldPlay: true,
       });
       // Your sound is playing!
@@ -23,22 +25,42 @@ export default class App extends React.Component {
     }
   };
 
-  onPressImage = e => {
+  onPressImage = sound => e => {
     console.log('clickHiImage');
-    this.playHello();
+    this.playSound(sound);
+  };
+
+  loadLayout = async uri => {
+    try {
+      // let response = await fetch(uri);
+      // let responseJson = await response.json();
+      console.log('loadLayout uri', uri);
+      let responseJson = require(uri);
+      this.setState({ layout: responseJson });
+      console.log('state is', this.state);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {
-    let pic = {
-      uri:
-        'http://www.fluentu.com/blog/wp-content/uploads/2016/04/how-to-say-hello-in-different-languages.jpg',
-    };
+    let layout = this.state ? this.state.layout : [];
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={this.onPressImage}>
-          <Image source={pic} style={{ width: 193, height: 110 }} />
-        </TouchableHighlight>
-        <Text>Hello Ollie! It's Daddy!</Text>
+        <Text>Stuff:</Text>
+        {layout.map(pic =>
+          <div>
+            <TouchableHighlight onPress={this.onPressImage(pic.sound)}>
+              <Image
+                source={{ uri: pic.image }}
+                style={{ width: 193, height: 110 }}
+              />
+            </TouchableHighlight>
+            <Text>
+              {pic.caption}
+            </Text>
+          </div>,
+        )}
       </View>
     );
   }
