@@ -1,0 +1,5 @@
+[{"title": "Hello",
+  "location": "./assets/layouts/hello.json"},
+ {"title": "More, Please!",
+  "location": "./assets/layouts/more_please.json"}
+]
