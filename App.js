@@ -11,7 +11,9 @@ import { Asset, Audio } from 'expo';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.loadLayout('./assets/layouts/hello.json');
+    this.loadLayout(
+      'https://raw.githubusercontent.com/mforsyth/ollietalk/master/assets/layouts/hello.json',
+    );
   }
 
   playSound = async sound => {
@@ -32,11 +34,12 @@ export default class App extends React.Component {
 
   loadLayout = async uri => {
     try {
-      // let response = await fetch(uri);
-      // let responseJson = await response.json();
       console.log('loadLayout uri', uri);
-      let responseJson = require(uri);
-      this.setState({ layout: responseJson });
+      let response = await fetch(uri);
+      console.log('got response', response);
+      let responseJson = await response.json();
+      console.log('got responseJson', responseJson);
+      this.setState({ pictures: responseJson });
       console.log('state is', this.state);
     } catch (error) {
       console.error(error);
@@ -44,12 +47,12 @@ export default class App extends React.Component {
   };
 
   render() {
-    let layout = this.state ? this.state.layout : [];
+    let pictures = this.state ? this.state.pictures : [];
     return (
       <View style={styles.container}>
         <Text>Stuff:</Text>
-        {layout.map(pic =>
-          <div>
+        {pictures.map(pic =>
+          <View key={pic.caption}>
             <TouchableHighlight onPress={this.onPressImage(pic.sound)}>
               <Image
                 source={{ uri: pic.image }}
@@ -59,7 +62,7 @@ export default class App extends React.Component {
             <Text>
               {pic.caption}
             </Text>
-          </div>,
+          </View>,
         )}
       </View>
     );
