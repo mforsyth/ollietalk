@@ -16,31 +16,34 @@ export default class App extends React.Component {
     );
   }
 
-  playSound = async sound => {
-    try {
-      const { soundObject, status } = await Audio.Sound.create(require(sound), {
-        shouldPlay: true,
-      });
-      // Your sound is playing!
-    } catch (error) {
-      console.log(error);
-    }
+  onPressImage = pic => e => {
+    pic.sound.play();
   };
 
-  onPressImage = sound => e => {
-    console.log('clickHiImage', sound);
-    this.playSound(sound);
+  loadPicture = async p => {
+    console.log('loadPicture', p);
+    const { caption, image, sound } = p;
+    const soundObject = Audio.Sound
+      .create({
+        uri: sound,
+      })
+      .then(s => {
+        console.log('s is', s);
+        s.loadAsync();
+      });
+    console.log('SoundObject', soundObject);
+    return {
+      caption,
+      image,
+      sound: soundObject,
+    };
   };
 
   loadLayout = async uri => {
     try {
-      console.log('loadLayout uri', uri);
       let response = await fetch(uri);
-      console.log('got response', response);
       let responseJson = await response.json();
-      console.log('got responseJson', responseJson);
-      this.setState({ pictures: responseJson });
-      console.log('state is', this.state);
+      await this.setState({ pictures: responseJson.map(this.loadPicture) });
     } catch (error) {
       console.error(error);
     }
@@ -53,7 +56,7 @@ export default class App extends React.Component {
         <Text>Stuff:</Text>
         {pictures.map(pic =>
           <View key={pic.caption}>
-            <TouchableHighlight onPress={this.onPressImage(pic.sound)}>
+            <TouchableHighlight onPress={this.onPressImage(pic)}>
               <Image
                 source={{ uri: pic.image }}
                 style={{ width: 193, height: 110 }}
