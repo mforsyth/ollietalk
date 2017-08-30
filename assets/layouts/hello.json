@@ -1,7 +1,7 @@
 [
   {
   "caption": "Hi Ollie! It's Daddy!",
-  "image": "http://www.fluentu.com/blog/wp-content/uploads/2016/04/how-to-say-hello-in-different-languages.jpg",
-  "sound": "https://raw.githubusercontent.com/mforsyth/ollietalk/master/assets/sounds/hello.mp3"
+  "imageUri": "http://www.fluentu.com/blog/wp-content/uploads/2016/04/how-to-say-hello-in-different-languages.jpg",
+  "soundUri": "https://raw.githubusercontent.com/mforsyth/ollietalk/master/assets/sounds/hello.mp3"
   }
 ]

@@ -17,33 +17,26 @@ export default class App extends React.Component {
   }
 
   onPressImage = pic => e => {
-    pic.sound.play();
+    console.log('onPressImage', pic);
+    pic.sound.playAsync();
   };
 
   loadPicture = async p => {
-    console.log('loadPicture', p);
-    const { caption, image, sound } = p;
-    const soundObject = Audio.Sound
-      .create({
-        uri: sound,
-      })
-      .then(s => {
-        console.log('s is', s);
-        s.loadAsync();
-      });
-    console.log('SoundObject', soundObject);
-    return {
-      caption,
-      image,
-      sound: soundObject,
-    };
+    const { sound, status } = await Expo.Audio.Sound.create({
+      uri: p.soundUri,
+    });
+    const retVal = { ...p, sound };
+    console.log('retVal', retVal);
+    return retVal;
   };
 
   loadLayout = async uri => {
     try {
       let response = await fetch(uri);
       let responseJson = await response.json();
-      await this.setState({ pictures: responseJson.map(this.loadPicture) });
+      const pics = await Promise.all(responseJson.map(this.loadPicture));
+      console.log('pics is', pics);
+      this.setState({ pictures: pics });
     } catch (error) {
       console.error(error);
     }
@@ -54,19 +47,17 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text>Stuff:</Text>
-        {pictures.map(pic =>
+        {pictures.map(pic => (
           <View key={pic.caption}>
             <TouchableHighlight onPress={this.onPressImage(pic)}>
               <Image
-                source={{ uri: pic.image }}
+                source={{ uri: pic.imageUri }}
                 style={{ width: 193, height: 110 }}
               />
             </TouchableHighlight>
-            <Text>
-              {pic.caption}
-            </Text>
-          </View>,
-        )}
+            <Text>{pic.caption}</Text>
+          </View>
+        ))}
       </View>
     );
   }
