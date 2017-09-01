@@ -1,5 +1,5 @@
 [{"title": "Hello",
-  "location": 'https://raw.githubusercontent.com/mforsyth/ollietalk/master/assets/layouts/hello.json'},
+  "location": "https://raw.githubusercontent.com/mforsyth/ollietalk/master/assets/layouts/hello.json"},
  {"title": "More, Please!",
-  "location": 'https://raw.githubusercontent.com/mforsyth/ollietalk/master/assets/layouts/more_please.json'}
+  "location": "https://raw.githubusercontent.com/mforsyth/ollietalk/master/assets/layouts/more_please.json"}
 ]
