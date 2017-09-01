@@ -22,7 +22,8 @@ export default class App extends React.Component {
 
   onPressLayout = layout => e => {
     console.log('onPress', layout);
-    loadLayout(layout.location);
+    this.loadLayout(layout.location);
+    this.setState({ activeLayout: layout });
   };
 
   loadPicture = async p => {
