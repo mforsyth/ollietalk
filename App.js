@@ -15,8 +15,8 @@ export default class App extends React.Component {
     this.loadLayoutList();
   }
 
-  onPressImage = pic => e => {
-    console.log('onPressImage', pic);
+  onPressImage = pic => async e => {
+    await pic.sound.stopAsync();
     pic.sound.playAsync();
   };
 
